@@ -33,7 +33,7 @@ func (re *Reader) Load() []int {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("[Reader] file loaded")
+	log.Printf("[Reader] file %v loaded", len(data))
 	return data
 }
 
