@@ -1,14 +1,10 @@
 package service
 
 import (
-	"errors"
-	"sort"
 )
 
-type DataType []int
-
 type database struct {
-	data DataType
+	data ReaderInterface
 }
 
 type DatabaseInterface interface {
@@ -16,25 +12,16 @@ type DatabaseInterface interface {
 }
 
 func (db *database) FindIndex(value int) (int, error) {
-	length := len(db.data)
-	index := sort.Search(length, func(index int) bool {
-		return db.data[index] >= value
-	})
-	if index < 0 || length <= index {
-		return 0, errors.New("not_found")
+	found, err := db.data.Search(value)
+	if err != nil {
+		return 0, err
 	}
-	var found = db.data[index]
-	if found == value {
-		return index, nil
-	}
-	if float64(value) * 0.9 <= float64(found) && float64(found) <= float64(value) * 1.1 {
-		return index, nil
-	}
-	return 0, errors.New("not_found")
+	return found, nil
 }
 
 func NewDatabase(re ReaderInterface) DatabaseInterface {
 	var db = new(database)
-	db.data = re.Load()
+	db.data = re
+	re.Init()
 	return db
 }
