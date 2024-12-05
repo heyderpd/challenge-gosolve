@@ -13,6 +13,8 @@ var db = make(map[string]string)
 
 func main() {
 	config.Init()
-	r := router.SetupRouter(service.NewDatabase())
+	re := service.NewReader(os.Getenv("FILEPATH"))
+	db := service.NewDatabase(re)
+	r := router.SetupRouter(db)
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
