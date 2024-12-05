@@ -2,12 +2,15 @@ package router
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	"challenge-gosolve/backend/app/service"
 )
 
 type Router struct {
-	db map[string]string
+	db service.DatabaseInterface
 }
 
 type RouterInterface interface {
@@ -20,17 +23,21 @@ func (route *Router) getRouteHealthcheck(c *gin.Context) {
 }
 
 func (route *Router) getRouteFindIndex(c *gin.Context) {
-	index := c.Params.ByName("index")
-	value, ok := route.db[index]
-	if ok {
-		c.JSON(http.StatusOK, gin.H{"index": index, "value": value})
-	} else {
+	indexStr := c.Params.ByName("index")
+	index, err := strconv.Atoi(indexStr)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"index": index, "status": "index invalid"})
+		return;
+	}
+	value, err := route.db.FindIndex(int(index))
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"index": index, "status": "no value"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"index": index, "value": value})
 	}
 }
 
-func SetupRouter() *gin.Engine {
-	var db = make(map[string]string)
+func SetupRouter(db service.DatabaseInterface) *gin.Engine {
 	router := Router{ db }
 	r := gin.Default()
 	r.GET("/health", router.getRouteHealthcheck)
