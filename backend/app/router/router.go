@@ -15,25 +15,25 @@ type Router struct {
 
 type RouterInterface interface {
 	getRouteHealthcheck(c *gin.Context)
-	getRouteFindIndex(c *gin.Context)
+	getRouteFindValue(c *gin.Context)
 }
 
 func (route *Router) getRouteHealthcheck(c *gin.Context) {
 	c.String(http.StatusOK, "OK")
 }
 
-func (route *Router) getRouteFindIndex(c *gin.Context) {
-	indexStr := c.Params.ByName("index")
-	index, err := strconv.Atoi(indexStr)
+func (route *Router) getRouteFindValue(c *gin.Context) {
+	valueStr := c.Params.ByName("value")
+	value, err := strconv.Atoi(valueStr)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"index": index, "status": "index invalid"})
+		c.JSON(http.StatusBadRequest, gin.H{"value": value, "status": "value invalid"})
 		return;
 	}
-	value, err := route.db.FindIndex(int(index))
+	index, err := route.db.FindIndex(value)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"index": index, "status": "no value"})
+		c.JSON(http.StatusNotFound, gin.H{"value": value, "status": "value not_found"})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"index": index, "value": value})
+		c.JSON(http.StatusOK, gin.H{"value": value, "index": index})
 	}
 }
 
@@ -41,6 +41,6 @@ func SetupRouter(db service.DatabaseInterface) *gin.Engine {
 	router := Router{ db }
 	r := gin.Default()
 	r.GET("/health", router.getRouteHealthcheck)
-	r.GET("/endpoint/:index", router.getRouteFindIndex)
+	r.GET("/endpoint/:value", router.getRouteFindValue)
 	return r
 }
