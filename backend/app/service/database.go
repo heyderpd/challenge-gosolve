@@ -21,8 +21,8 @@ func (db *database) FindIndex(index int) (int, error) {
 	return 0, errors.New("not_found")
 }
 
-func NewDatabase() DatabaseInterface {
+func NewDatabase(re ReaderInterface) DatabaseInterface {
 	var db = new(database)
-	db.data = []int{ 0, 100, 200, 300, 400, 500, 600, 700, 800, 900 }
+	db.data = re.Load()
 	return db
 }
