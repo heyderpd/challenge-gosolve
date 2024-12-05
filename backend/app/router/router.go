@@ -4,9 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
+  "github.com/toorop/gin-logrus"
 	"github.com/gin-gonic/gin"
 
 	"challenge-gosolve/backend/app/service"
+	"challenge-gosolve/backend/app/utils"
 )
 
 type Router struct {
@@ -40,6 +42,7 @@ func (route *Router) getRouteFindValue(c *gin.Context) {
 func SetupRouter(db service.DatabaseInterface) *gin.Engine {
 	router := Router{ db }
 	r := gin.Default()
+	r.Use(ginlogrus.Logger(utils.Log), gin.Recovery())
 	r.GET("/health", router.getRouteHealthcheck)
 	r.GET("/endpoint/:value", router.getRouteFindValue)
 	return r
