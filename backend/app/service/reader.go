@@ -1,12 +1,13 @@
 package service
 
 import (
-	"log"
 	"os"
 	"bufio"
 	"strconv"
 	"sort"
 	"errors"
+
+	"challenge-gosolve/backend/app/utils"
 )
 
 type DataType []int
@@ -25,21 +26,21 @@ func (re *Reader) Init() {
 	file, err := os.Open(re.filepath)
 	defer file.Close()
 	if err != nil {
-		log.Fatal(err)
+		utils.Log.Fatal(err)
 	}
 	scanner := bufio.NewScanner(file)
 	var data []int
 	for scanner.Scan() {
 		line, err := strconv.Atoi(scanner.Text())
 		if err != nil {
-			log.Fatal(err)
+			utils.Log.Fatal(err)
 		}
 		data = append(data, line)
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		utils.Log.Fatal(err)
 	}
-	log.Printf("[Reader] file %v loaded", len(data))
+	utils.Log.Printf("[Reader] file %v loaded", len(data))
 	re.data = data
 }
 
