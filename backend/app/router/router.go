@@ -12,7 +12,7 @@ import (
 )
 
 type Router struct {
-	db service.DatabaseInterface
+	db service.SearcherInterface
 }
 
 type RouterInterface interface {
@@ -39,7 +39,7 @@ func (route *Router) getRouteFindValue(c *gin.Context) {
 	}
 }
 
-func SetupRouter(db service.DatabaseInterface) *gin.Engine {
+func SetupRouter(db service.SearcherInterface) *gin.Engine {
 	router := Router{ db }
 	r := gin.Default()
 	r.Use(ginlogrus.Logger(utils.Log), gin.Recovery())

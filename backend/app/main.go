@@ -15,8 +15,8 @@ var db = make(map[string]string)
 func main() {
 	config.Init()
 	utils.LoggerInit()
-	re := service.NewReader(os.Getenv("FILEPATH"))
-	db := service.NewDatabase(re)
-	r := router.SetupRouter(db)
+	fr := service.NewReader(os.Getenv("FILEPATH"))
+	se := service.NewSearcher(fr)
+	r := router.SetupRouter(se)
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
