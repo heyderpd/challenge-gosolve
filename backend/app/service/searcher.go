@@ -30,11 +30,19 @@ func (se *Searcher) FindIndex(value int) (int, error) {
 	if index < 0 || length <= index {
 		return 0, errors.New("not_found")
 	}
-	var valuFound = se.data[index]
-	if valuFound == value {
+	var valueFound = se.data[index]
+	if valueFound == value {
 		return index, nil
 	}
-	if se.isNear(valuFound, value) {
+	if se.isNear(valueFound, value) {
+		return index, nil
+	}
+	index -= 1
+	if index < 0 {
+		return 0, errors.New("not_found")
+	}
+	var beforeValue = se.data[index]
+	if se.isNear(beforeValue, value) {
 		return index, nil
 	}
 	return 0, errors.New("not_found")

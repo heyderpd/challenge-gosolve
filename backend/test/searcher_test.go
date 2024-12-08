@@ -39,13 +39,11 @@ func TestSearcherManyFinder(t *testing.T) {
 }
 
 func TestSearcherGetAfterAsNear(t *testing.T) {
-	key := 2
+	key := 1
 	val := 101
 	index, err := se.FindIndex(val)
 	if index != key || err != nil {
 		t.Fatalf(`index don't match, expected_val: %v, found: %v, error: %v`, key, index, err)
-	} else {
-		key += 0
 	}
 }
 
