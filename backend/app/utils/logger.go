@@ -10,9 +10,9 @@ import (
 var Log *logrus.Logger
 
 var (
-	logModes = map[string]logrus.Level {
+	logModes = map[string]logrus.Level{
 		"debug": logrus.DebugLevel,
-		"info": logrus.InfoLevel,
+		"info":  logrus.InfoLevel,
 		"error": logrus.ErrorLevel,
 	}
 	defaultLogMode = logrus.ErrorLevel

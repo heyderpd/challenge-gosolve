@@ -1,8 +1,8 @@
 package service
 
 import (
-	"os"
 	"bufio"
+	"os"
 	"strconv"
 
 	"challenge-gosolve/backend/app/utils"
@@ -10,7 +10,7 @@ import (
 
 type FileReader struct {
 	filepath string
-	data []int
+	data     []int
 }
 
 func (re *FileReader) Load() []int {
