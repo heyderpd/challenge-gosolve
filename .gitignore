@@ -131,3 +131,6 @@ dist
 
 # tmp files
 NOTES
+
+# vscode debug configs
+.vscode
