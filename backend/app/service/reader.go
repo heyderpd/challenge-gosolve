@@ -4,25 +4,16 @@ import (
 	"os"
 	"bufio"
 	"strconv"
-	"sort"
-	"errors"
 
 	"challenge-gosolve/backend/app/utils"
 )
 
-type DataType []int
-
-type Reader struct {
+type FileReader struct {
 	filepath string
-	data DataType
+	data []int
 }
 
-type ReaderInterface interface {
-	Init()
-	Search(int) (int, error)
-}
-
-func (re *Reader) Init() {
+func (re *FileReader) Load() []int {
 	file, err := os.Open(re.filepath)
 	defer file.Close()
 	if err != nil {
@@ -41,29 +32,11 @@ func (re *Reader) Init() {
 		utils.Log.Fatal(err)
 	}
 	utils.Log.Printf("[Reader] file %v loaded", len(data))
-	re.data = data
+	return data
 }
 
-func (re *Reader) Search(value int) (int, error) {
-	length := len(re.data)
-	index := sort.Search(length, func(index int) bool {
-		return re.data[index] >= value
-	})
-	if index < 0 || length <= index {
-		return 0, errors.New("not_found")
-	}
-	var found = re.data[index]
-	if found == value {
-		return index, nil
-	}
-	if float64(value) * 0.9 <= float64(found) && float64(found) <= float64(value) * 1.1 {
-		return index, nil
-	}
-	return 0, errors.New("not_found")
-}
-
-func NewReader(filepath string) ReaderInterface {
-	var re = new(Reader)
-	re.filepath = filepath
-	return re
+func NewReader(filepath string) DataInitializer {
+	var fr = new(FileReader)
+	fr.filepath = filepath
+	return fr
 }
