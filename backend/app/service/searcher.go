@@ -17,6 +17,11 @@ type SearcherInterface interface {
 	FindIndex(int) (int, error)
 }
 
+func (se *Searcher) isNear(found int, value int) bool {
+	percent := float64(found) / float64(value)
+	return 0.9 <= percent && percent <= 1.1
+}
+
 func (se *Searcher) FindIndex(value int) (int, error) {
 	length := len(se.data)
 	index := sort.Search(length, func(index int) bool {
@@ -25,12 +30,11 @@ func (se *Searcher) FindIndex(value int) (int, error) {
 	if index < 0 || length <= index {
 		return 0, errors.New("not_found")
 	}
-	var found = se.data[index]
-	if found == value {
+	var valuFound = se.data[index]
+	if valuFound == value {
 		return index, nil
 	}
-	percent := float64(found) / float64(value)
-	if 0.9 <= percent && percent <= 1.1 {
+	if se.isNear(valuFound, value) {
 		return index, nil
 	}
 	return 0, errors.New("not_found")
