@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "ea68b57e-b3e5-4306-ad15-00883d87e96b",
+		"name": "challange_gosolve",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1786114"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/health",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/2500",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"2500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index before as nearby",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/101",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index after as nearby",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/550",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"550"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index no nearby",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/150",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"150"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index with invalid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/abc",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find index with out of range",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/endpoint/2147483640",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"endpoint",
+						"2147483640"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
